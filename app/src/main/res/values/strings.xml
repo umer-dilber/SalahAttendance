@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">SalahAttendance-App</string>
+    <string name="enter_date">DD/MM/YYYY</string>
+    <string name="Fajar">Fajar</string>
+    <string name="Zuhr">Zuhr</string>
+    <string name="Asar">Asar</string>
+    <string name="maghrib">Maghrib</string>
+    <string name="esha">Esha</string>
+    <string name="submit">Submit</string>
+</resources>
