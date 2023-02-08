@@ -16,11 +16,11 @@ import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -38,13 +38,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         date = findViewById(R.id.Date);
+        String dateStr = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(new Date());
+        date.setText(dateStr);
         Fajar = findViewById(R.id.checkFajar);
         Zuhr = findViewById(R.id.checkZuhr);
         Asar = findViewById(R.id.checkAsar);
         Maghrib = findViewById(R.id.checkMaghrib);
         Esha = findViewById(R.id.checkEsha);
         btn = findViewById(R.id.btnSubmit);
-        txt = findViewById(R.id.textView);
         date.setOnClickListener(this);
         btn.setOnClickListener(this);
 

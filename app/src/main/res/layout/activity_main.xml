@@ -125,16 +125,10 @@
 
     <Button
         android:id="@+id/btnSubmit"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_gravity="center"
         android:text="@string/submit" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text=""/>
 
 
 </LinearLayout>
