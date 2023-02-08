@@ -18,7 +18,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("CREATE TABLE SalahRecord (Date STRING, Fajar INTEGER, Zuhr INTEGER, Asar INTEGER, Maghrib INTEGER, Esha INTEGER)");
+        db.execSQL("CREATE TABLE SalahRecord (Date STRING UNIQUE, Fajar INTEGER, Zuhr INTEGER, Asar INTEGER, Maghrib INTEGER, Esha INTEGER)");
     }
 
     @Override
@@ -26,7 +26,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         // handle database upgrades
     }
 
-    public void insertData(MyData data) {
+    public boolean insertData(MyData data) {
         SQLiteDatabase db = getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Date", data.getDate());
@@ -35,7 +35,11 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put("Asar", data.getAsar());
         values.put("Maghrib", data.getMaghrib());
         values.put("Esha", data.getEsha());
-        db.insert("SalahRecord", null, values);
+        long flag = db.insert("SalahRecord", null, values);
+        if (flag == -1)
+            return false;
+        else
+            return true;
     }
 
     public ContentValues getEntriesWithDate(String dateStr){
