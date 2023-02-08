@@ -38,6 +38,38 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.insert("SalahRecord", null, values);
     }
 
+    public ContentValues getEntriesWithDate(String dateStr){
+        SQLiteDatabase db = this.getReadableDatabase();
+        String selectQuery = "SELECT * FROM SalahRecord WHERE Date = '" + dateStr + "'";
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        ContentValues rowData = new ContentValues();
+        if (cursor.moveToFirst()) {
+            for (int i = 0; i < cursor.getColumnCount(); i++) {
+                switch (cursor.getType(i)) {
+                    case Cursor.FIELD_TYPE_INTEGER:
+                        rowData.put(cursor.getColumnName(i), cursor.getInt(i));
+                        break;
+                    case Cursor.FIELD_TYPE_FLOAT:
+                        rowData.put(cursor.getColumnName(i), cursor.getFloat(i));
+                        break;
+                    case Cursor.FIELD_TYPE_STRING:
+                        rowData.put(cursor.getColumnName(i), cursor.getString(i));
+                        break;
+                    case Cursor.FIELD_TYPE_BLOB:
+                        rowData.put(cursor.getColumnName(i), cursor.getBlob(i));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        cursor.close();
+
+        return rowData;
+}
+
     public List<MyData> getAllData() {
         List<MyData> dataList = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
