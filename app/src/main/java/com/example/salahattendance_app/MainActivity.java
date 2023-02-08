@@ -32,11 +32,12 @@ import java.util.Set;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     EditText date;
-    TextView txt;
     int mYear, mMonth, mDay;
     CheckBox Fajar, Zuhr, Asar, Maghrib, Esha;
     Button btn;
     DatabaseHelper db = new DatabaseHelper(this);
+    boolean flag;
+    ContentValues rowData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,29 +53,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Maghrib = findViewById(R.id.checkMaghrib);
         Esha = findViewById(R.id.checkEsha);
         btn = findViewById(R.id.btnSubmit);
-        txt = findViewById(R.id.textview);
         date.setOnClickListener(this);
-
-        ContentValues rowData = db.getEntriesWithDate((date.getText()).toString());
-        if (rowData.size() > 0) {
-            // display the data on the TextView
-            Set<Map.Entry<String, Object>> entrySet = rowData.valueSet();
-            StringBuilder stringBuilder = new StringBuilder();
-            for (Map.Entry<String, Object> entry : entrySet) {
-                stringBuilder.append(entry.getKey());
-                stringBuilder.append(": ");
-                stringBuilder.append(entry.getValue().toString());
-                stringBuilder.append("\n");
-                Log.d(TAG, entry.getKey() + ": " + entry.getValue().toString());
-            }
-            txt.setText(stringBuilder.toString());
-            btn.setVisibility(View.INVISIBLE);
-        }
-        else {
-            btn.setOnClickListener(this);
-        }
-
-
+        checkAgainstDate();
+        btn.setOnClickListener(this);
     }
 
     @Override
@@ -93,8 +74,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if (view == btn){
             MyData data = new MyData((date.getText()).toString(), getValue(Fajar.isChecked()), getValue(Zuhr.isChecked()), getValue(Asar.isChecked()), getValue(Maghrib.isChecked()), getValue(Esha.isChecked()));
-            db.insertData(data);
-            Toast.makeText(getApplicationContext(), "Data Added", Toast.LENGTH_SHORT).show();
+            flag = db.insertData(data);
+            if (!flag){
+                checkAgainstDate();
+                Toast.makeText(getApplicationContext(), "Data has been already added for this day!", Toast.LENGTH_SHORT).show();
+            }
+            else
+                Toast.makeText(getApplicationContext(), "Attendance submitted!", Toast.LENGTH_SHORT).show();
         }
     }
     public int getValue(Boolean prayer){
@@ -103,10 +89,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         else
             return 0;
     }
-    public boolean getStatus(int prayer){
-        if (prayer == 1)
-            return true;
-        else
-            return false;
+    public void Check(CheckBox prayer, int val){
+        prayer.setChecked(val == 1);
+    }
+    public void checkAgainstDate(){
+        rowData = db.getEntriesWithDate((date.getText()).toString());
+        if (rowData.size() > 0) {
+            int faj = rowData.getAsInteger("Fajar");
+            Check(Fajar, faj);
+            int zh = rowData.getAsInteger("Zuhr");
+            Check(Zuhr, zh);
+            int as = rowData.getAsInteger("Asar");
+            Check(Asar, as);
+            int mag = rowData.getAsInteger("Maghrib");
+            Check(Maghrib, mag);
+            int es = rowData.getAsInteger("Esha");
+            Check(Esha, es);
+        }
     }
 }
