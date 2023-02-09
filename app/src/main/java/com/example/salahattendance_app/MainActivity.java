@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TableLayout;
 import android.widget.TableRow;
@@ -67,8 +68,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             mMonth = c.get(Calendar.MONTH);
             mDay = c.get(Calendar.DAY_OF_MONTH);
 
-            DatePickerDialog datePickerDialog = new DatePickerDialog(this,
-                    (view1, year, monthOfYear, dayOfMonth) -> date.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year), mYear, mMonth, mDay);
+            DatePickerDialog datePickerDialog = new DatePickerDialog(MainActivity.this,
+                    (view1, year, month, day) -> {
+                        Calendar selectedDate = Calendar.getInstance();
+                        selectedDate.set(year, month, day);
+                        if (selectedDate.after(c)) {
+                            Toast.makeText(MainActivity.this, "Selected date can't be greater than today's date.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            String Locale = "";
+                            date.setText(String.format(Locale,"%02d-%02d-%04d", day, month + 1, year));
+                        }
+                    }, mYear, mMonth, mDay);
             datePickerDialog.show();
         }
 
