@@ -93,15 +93,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(getApplicationContext(), "Attendance submitted!", Toast.LENGTH_SHORT).show();
         }
     }
-    public int getValue(Boolean prayer){
-        if (prayer)
-            return 1;
-        else
-            return 0;
-    }
-    public void Check(CheckBox prayer, int val){
-        prayer.setChecked(val == 1);
-    }
     public void checkAgainstDate(){
         rowData = db.getEntriesWithDate((date.getText()).toString());
         if (rowData.size() > 0) {
@@ -117,4 +108,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Check(Esha, es);
         }
     }
+    public void Check(CheckBox prayer, int val){
+        prayer.setChecked(val == 1);
+    }
+    public int getValue(Boolean prayer){
+        if (prayer)
+            return 1;
+        else
+            return 0;
+    }
+    
+    
 }
