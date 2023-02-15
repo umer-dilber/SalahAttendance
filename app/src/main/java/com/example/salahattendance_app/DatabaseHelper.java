@@ -15,9 +15,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // handle database upgrades
-    }
+
 
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -25,7 +23,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     }
 
     @Override
-    
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        // handle database upgrades
+    }
 
     public boolean insertData(MyData data) {
         SQLiteDatabase db = getWritableDatabase();

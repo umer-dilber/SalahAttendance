@@ -75,8 +75,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         if (selectedDate.after(c)) {
                             Toast.makeText(MainActivity.this, "Selected date can't be greater than today's date.", Toast.LENGTH_SHORT).show();
                         } else {
-                            String Locale = "";
-                            date.setText(String.format(Locale,"%02d-%02d-%04d", day, month + 1, year));
+                            date.setText(String.format("%02d-%02d-%04d", day, month + 1, year));
                         }
                     }, mYear, mMonth, mDay);
             datePickerDialog.show();
